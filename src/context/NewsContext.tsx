@@ -32,6 +32,7 @@ interface NewsContextType {
   translateArticle: (article: Article, targetLanguage: string) => Article;
   personalizedArticles: Article[];
   refreshPersonalizedNews: () => void;
+  addNewsArticle: (newArticle: Article) => void;
 }
 
 const NewsContext = createContext<NewsContextType | undefined>(undefined);
@@ -184,6 +185,12 @@ export const NewsProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
   }, []);
 
+  const addNewsArticle = (newArticle: Article) => {
+    setArticles(prev => [newArticle, ...prev]);
+    setLastUpdated(new Date());
+    console.log('New article added:', newArticle.title);
+  };
+
   const value = {
     articles,
     personalizedArticles,
@@ -194,7 +201,8 @@ export const NewsProvider: React.FC<{ children: React.ReactNode }> = ({ children
     getArticlesByCategory,
     searchArticles,
     getLocalizedArticles,
-    translateArticle
+    translateArticle,
+    addNewsArticle
   };
 
   return <NewsContext.Provider value={value}>{children}</NewsContext.Provider>;
