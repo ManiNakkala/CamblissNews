@@ -117,49 +117,10 @@ const Header = () => {
                   <span>{articles.length}+ Articles</span>
                 </div>
 
-                <button
-                  onClick={refreshNews}
-                  className="bbc-button flex items-center space-x-1 px-2 py-0.5 text-white bg-white/20 hover:bg-white/30 transition-all text-[11px]"
-                >
-                  <Zap className="w-3 h-3" />
-                  <span className="hidden sm:inline">Refresh</span>
-                </button>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <select
-                  value={currentLanguage}
-                  onChange={(e) => setLanguage(e.target.value)}
-                  className="bg-white/20 text-white text-xs border-none outline-none cursor-pointer px-2 py-0.5 rounded"
-                >
-                  {languages.map(lang => (
-                    <option key={lang.code} value={lang.code} className="bg-black text-white">
-                      {lang.nativeName}
-                    </option>
-                  ))}
-                </select>
-
-                <Link
-                  to="/subscription"
-                  className="hidden md:flex items-center space-x-1 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 px-2 py-0.5 rounded text-[11px]"
-                >
-                  <Crown className="w-3 h-3" />
-                  <span className="text-xs font-bold">Premium</span>
-                </Link>
-
-                {isAuthenticated && user && (
-                  <div className="hidden md:flex items-center space-x-2 bg-white/20 px-2 py-0.5 rounded text-[11px]">
-                    <User className="w-3 h-3" />
-                    <span className="text-xs">{user.camblissPoints} pts</span>
-                  </div>
-                )}
-
-                <div className="hidden md:block bg-white/20 px-2 py-0.5 rounded text-[11px]">
-                  {new Date().toLocaleDateString(currentLanguage === 'hi' ? 'hi-IN' : currentLanguage === 'or' ? 'or-IN' : 'en-IN', {
-                    weekday: 'short',
-                    month: 'short',
-                    day: 'numeric'
-                  })}
+              {isAuthenticated && user && (
+                <div className="hidden md:flex items-center space-x-2 bg-white/20 px-3 py-1">
+                  <User className="w-3 h-3" />
+                  <span className="text-xs">{user.camblissPoints} pts</span>
                 </div>
               </div>
             </div>
@@ -293,7 +254,43 @@ const Header = () => {
                   </button>
                 )}
 
-                {/* mobile menu toggle */}
+                  {showUserMenu && (
+                    <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
+                      <div className="px-4 py-3 border-b border-gray-200">
+                        <p className="font-medium text-gray-900">{user.fullName}</p>
+                        <p className="text-sm text-gray-600">@{user.username}</p>
+                        <p className="text-xs text-red-600 mt-1">{user.camblissPoints} Cambliss Points</p>
+                      </div>
+                      
+                      <Link
+                        to="/dashboard"
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setShowUserMenu(false)}
+                      >
+                        <User className="w-4 h-4 mr-3" />
+                        Dashboard
+                      </Link>
+                      
+                      <Link
+                        to="/dashboard"
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setShowUserMenu(false)}
+                      >
+                        <User className="w-4 h-4 mr-3" />
+                        Dashboard
+                      </Link>
+                      
+                      <button
+                        to="/social"
+                        className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                      >
+                        <MessageSquare className="w-4 h-4 mr-3" />
+                        Social Feed
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
                 <button
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                   className="lg:hidden p-2 text-black transition-colors"
