@@ -6,7 +6,6 @@ import { useNews } from '../context/NewsContext';
 import { useAuth } from '../context/AuthContext';
 import LoginModal from './LoginModal';
 import MyNewsModal from './MyNewsModal';
-import AddNewsModal from './AddNewsModal';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,11 +13,10 @@ const Header = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showMyNewsModal, setShowMyNewsModal] = useState(false);
-  const [showAddNewsModal, setShowAddNewsModal] = useState(false);
   const [hasMyNewsPreferences, setHasMyNewsPreferences] = useState(false);
   const [isFirstTimeUser, setIsFirstTimeUser] = useState(false);
   const { currentLanguage, setLanguage, languages, translations } = useLanguage();
-  const { lastUpdated, articles, refreshNews, personalizedArticles, addNewsArticle } = useNews();
+  const { lastUpdated, articles, refreshNews, personalizedArticles } = useNews();
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -47,7 +45,7 @@ const Header = () => {
     if (!lastUpdated) return '';
     const now = new Date();
     const diff = Math.floor((now.getTime() - lastUpdated.getTime()) / 1000);
-    
+
     if (diff < 60) return `Updated ${diff}s ago`;
     if (diff < 120) return `Updated 1m ago`;
     if (diff < 3600) return `Updated ${Math.floor(diff / 60)}m ago`;
@@ -99,285 +97,104 @@ const Header = () => {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 bbc-header z-40">
-      {/* Top News Bar */}
-      <div className="bbc-breaking text-white py-2 relative">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between text-xs font-medium">
-            <div className="flex items-center space-x-6">
-              <div className="flex items-center space-x-2">
-                <div className="bbc-live flex items-center space-x-2">
+        {/* Top News Bar */}
+        <div className="bbc-breaking text-white py-1.5">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex items-center justify-between text-xs font-medium">
+              <div className="flex items-center space-x-3">
+                <div className="bbc-live flex items-center space-x-1">
                   <Radio className="w-3 h-3 animate-pulse" />
                   <span>LIVE</span>
                 </div>
-              </div>
-              
-              <div className="flex items-center space-x-1 bg-white/20 px-3 py-1">
-                <Clock className="w-3 h-3" />
-                <span>{formatLastUpdated()}</span>
-              </div>
-              
-              <div className="flex items-center space-x-1 bg-white/20 px-3 py-1">
-                <Users className="w-3 h-3" />
-                <span>{articles.length}+ Articles</span>
-              </div>
-              
-              <div className="flex items-center space-x-1 bg-white/20 px-3 py-1">
-                <Radio className="w-3 h-3 animate-pulse" />
-                <span>Live Updates</span>
-              </div>
-              
-              <button
-                onClick={refreshNews}
-                className="bbc-button flex items-center space-x-1 px-3 py-1 text-white bg-white/20 hover:bg-white/30 transition-all"
-              >
-                <Zap className="w-3 h-3" />
-                <span className="hidden sm:inline">Refresh</span>
-              </button>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <select
-                value={currentLanguage}
-                onChange={(e) => setLanguage(e.target.value)}
-                className="bg-white/20 text-white text-xs border-none outline-none cursor-pointer px-3 py-1"
-              >
-                {languages.map(lang => (
-                  <option key={lang.code} value={lang.code} className="bg-black text-white">
-                    {lang.nativeName}
-                  </option>
-                ))}
-              </select>
 
-              <Link
-                to="/subscription"
-                className="hidden md:flex items-center space-x-1 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 px-3 py-1 transition-all"
-              >
-                <Crown className="w-3 h-3" />
-                <span className="text-xs font-bold">Premium</span>
-              </Link>
-
-              {isAuthenticated && (
-                <button
-                  onClick={() => setShowAddNewsModal(true)}
-                  className="hidden md:flex items-center space-x-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 px-3 py-1 transition-all"
-                  title="Add News Article"
-                >
-                  <span className="text-xs font-bold">+ Add News</span>
-                </button>
-              )}
-
-              {isAuthenticated && user && (
-                <div className="hidden md:flex items-center space-x-2 bg-white/20 px-3 py-1">
-                  <User className="w-3 h-3" />
-                  <span className="text-xs">{user.camblissPoints} pts</span>
+                <div className="flex items-center space-x-1 bg-white/20 px-2 py-0.5 rounded text-[11px]">
+                  <Clock className="w-3 h-3" />
+                  <span>{formatLastUpdated()}</span>
                 </div>
-              )}
 
-              <div className="hidden md:block bg-white/20 px-3 py-1">
-                {new Date().toLocaleDateString(currentLanguage === 'hi' ? 'hi-IN' : currentLanguage === 'or' ? 'or-IN' : 'en-IN', {
-                  weekday: 'short',
-                  month: 'short',
-                  day: 'numeric'
-                })}
+                <div className="flex items-center space-x-1 bg-white/20 px-2 py-0.5 rounded text-[11px]">
+                  <Users className="w-3 h-3" />
+                  <span>{articles.length}+ Articles</span>
+                </div>
+
+                <button
+                  onClick={refreshNews}
+                  className="bbc-button flex items-center space-x-1 px-2 py-0.5 text-white bg-white/20 hover:bg-white/30 transition-all text-[11px]"
+                >
+                  <Zap className="w-3 h-3" />
+                  <span className="hidden sm:inline">Refresh</span>
+                </button>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Main Navigation */}
-      <div className="bbc-nav">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-8">
-              <Link to="/" className="flex items-center space-x-3 group">
-                <div className="relative">
-                  <div className="bg-red-600 p-2">
-                    <Tv className="w-8 h-8 text-white group-hover:text-red-200 transition-colors" />
+              <div className="flex items-center space-x-2">
+                <select
+                  value={currentLanguage}
+                  onChange={(e) => setLanguage(e.target.value)}
+                  className="bg-white/20 text-white text-xs border-none outline-none cursor-pointer px-2 py-0.5 rounded"
+                >
+                  {languages.map(lang => (
+                    <option key={lang.code} value={lang.code} className="bg-black text-white">
+                      {lang.nativeName}
+                    </option>
+                  ))}
+                </select>
+
+                <Link
+                  to="/subscription"
+                  className="hidden md:flex items-center space-x-1 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 px-2 py-0.5 rounded text-[11px]"
+                >
+                  <Crown className="w-3 h-3" />
+                  <span className="text-xs font-bold">Premium</span>
+                </Link>
+
+                {isAuthenticated && user && (
+                  <div className="hidden md:flex items-center space-x-2 bg-white/20 px-2 py-0.5 rounded text-[11px]">
+                    <User className="w-3 h-3" />
+                    <span className="text-xs">{user.camblissPoints} pts</span>
                   </div>
-                  <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-red-600 animate-pulse"></div>
-                </div>
-                <div>
-                  <h1 className="text-2xl font-bold bbc-heading text-black group-hover:text-red-600 transition-colors">
-                    Cambliss
-                  </h1>
-                  <p className="text-xs bbc-text font-medium -mt-1 uppercase tracking-wider bbc-accent">
-                    NEWS
-                  </p>
-                </div>
-              </Link>
-
-              <nav className="hidden lg:flex space-x-2">
-                {categories.slice(0, 1).map(category => (
-                  <Link
-                    key={category.key}
-                    to={category.path}
-                    className={`bbc-nav-item px-5 py-2 text-sm font-medium transition-all duration-200 ${
-                      isActivePath(category.path)
-                        ? 'active'
-                        : ''
-                    }`}
-                  >
-                    {translations[category.key] || category.name}
-                  </Link>
-                ))}
-
-                {hasMyNewsPreferences && isAuthenticated && (
-                  <Link
-                    to="/my-news"
-                    className={`bbc-nav-item px-5 py-2 text-sm font-medium transition-all duration-200 flex items-center space-x-1 ${
-                      location.pathname === '/my-news'
-                        ? 'active'
-                        : ''
-                    }`}
-                  >
-                    <Star className="w-4 h-4" />
-                    <span>My News</span>
-                  </Link>
                 )}
 
-                {categories.slice(1).map(category => (
-                  <Link
-                    key={category.key}
-                    to={category.path}
-                    className={`bbc-nav-item px-5 py-2 text-sm font-medium transition-all duration-200 ${
-                      isActivePath(category.path)
-                        ? 'active'
-                        : ''
-                    }`}
-                  >
-                    {translations[category.key] || category.name}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-
-            <div className="flex items-center space-x-3">
-              <form onSubmit={handleSearch} className="hidden md:flex items-center">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder={translations.searchPlaceholder}
-                    className="bbc-search pl-10 pr-4 py-2.5 w-56 transition-all"
-                  />
+                <div className="hidden md:block bg-white/20 px-2 py-0.5 rounded text-[11px]">
+                  {new Date().toLocaleDateString(currentLanguage === 'hi' ? 'hi-IN' : currentLanguage === 'or' ? 'or-IN' : 'en-IN', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric'
+                  })}
                 </div>
-              </form>
-
-              {/* User Menu */}
-              {isAuthenticated && user ? (
-                <div className="relative">
-                  <button
-                    onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="flex items-center space-x-2 bbc-button p-2 transition-colors"
-                  >
-                    <img
-                      src={user.avatar}
-                      alt={user.fullName}
-                      className="w-8 h-8 rounded-full object-cover"
-                    />
-                    <span className="hidden md:inline text-sm font-medium">{user.username}</span>
-                  </button>
-
-                  {showUserMenu && (
-                    <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
-                      <div className="px-4 py-3 border-b border-gray-200">
-                        <p className="font-medium text-gray-900">{user.fullName}</p>
-                        <p className="text-sm text-gray-600">@{user.username}</p>
-                        <p className="text-xs text-red-600 mt-1">{user.camblissPoints} Cambliss Points</p>
-                      </div>
-                      
-                      <Link
-                        to="/dashboard"
-                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => setShowUserMenu(false)}
-                      >
-                        <User className="w-4 h-4 mr-3" />
-                        Dashboard
-                      </Link>
-                      
-                      <Link
-                        to="/dashboard"
-                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => setShowUserMenu(false)}
-                      >
-                        <User className="w-4 h-4 mr-3" />
-                        Dashboard
-                      </Link>
-
-                      <button
-                        onClick={() => {
-                          setShowAddNewsModal(true);
-                          setShowUserMenu(false);
-                        }}
-                        className="flex items-center w-full px-4 py-2 text-sm text-green-600 hover:bg-green-50"
-                      >
-                        <MessageSquare className="w-4 h-4 mr-3" />
-                        Add News
-                      </button>
-
-                      <Link
-                        to="/social"
-                        className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-                        onClick={() => setShowUserMenu(false)}
-                      >
-                        <MessageSquare className="w-4 h-4 mr-3" />
-                        Social Feed
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <button
-                  onClick={() => setShowLoginModal(true)}
-                  className="bbc-button-primary text-white px-4 py-2 font-medium text-sm"
-                >
-                  Sign In
-                </button>
-              )}
-
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="lg:hidden bbc-button p-2 text-black transition-colors"
-              >
-                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="lg:hidden bbc-nav border-t border-gray-200 shadow-lg">
-            <div className="px-4 py-4">
-              {/* Mobile Search */}
-              <form onSubmit={handleSearch} className="mb-4">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder={translations.searchPlaceholder}
-                    className="bbc-search w-full pl-10 pr-4 py-2"
-                  />
-                </div>
-              </form>
-              
-              {/* Mobile Navigation */}
-              <nav className="space-y-1">
+        {/* Main Navigation - compact & fits viewport (no horizontal slider) */}
+        <div className="bbc-nav bg-white w-full border-b">
+          <div className="max-w-7xl mx-auto px-3">
+            <div className="flex items-center justify-between h-14">
+              {/* Left: Logo */}
+              <div className="flex items-center flex-shrink-0 mr-4">
+                <Link to="/" className="flex items-center space-x-2 group">
+                  <div className="relative">
+                    <div className="bg-red-600 p-2 rounded">
+                      <Tv className="w-6 h-6 text-white group-hover:text-red-200 transition-colors" />
+                    </div>
+                    <div className="absolute -bottom-1 -right-1 w-2.5 h-2.5 bg-red-600 animate-pulse rounded-full"></div>
+                  </div>
+                  <div className="min-w-0">
+                    <h1 className="text-lg font-bold bbc-heading text-black group-hover:text-red-600 transition-colors leading-4">
+                      Cambliss
+                    </h1>
+                    <p className="text-[10px] bbc-text font-medium -mt-0.5 uppercase tracking-wider bbc-accent">NEWS</p>
+                  </div>
+                </Link>
+              </div>
+
+              {/* Center nav: keep single line, reduce gaps and padding so it fits */}
+              <nav className="hidden lg:flex flex-1 justify-center items-center gap-1 px-2 flex-nowrap">
                 {categories.slice(0, 1).map(category => (
                   <Link
                     key={category.key}
                     to={category.path}
-                    className={`bbc-nav-item block px-3 py-2 text-base font-medium transition-colors mb-2 ${
-                      isActivePath(category.path)
-                        ? 'active'
-                        : ''
-                    }`}
-                    onClick={() => setIsMenuOpen(false)}
+                    className={`bbc-nav-item px-2.5 py-1 text-xs font-medium transition-all duration-150 whitespace-nowrap ${isActivePath(category.path) ? 'active' : ''}`}
                   >
                     {translations[category.key] || category.name}
                   </Link>
@@ -386,14 +203,9 @@ const Header = () => {
                 {hasMyNewsPreferences && isAuthenticated && (
                   <Link
                     to="/my-news"
-                    className={`bbc-nav-item block px-3 py-2 text-base font-medium transition-colors mb-2 flex items-center space-x-2 ${
-                      location.pathname === '/my-news'
-                        ? 'active'
-                        : ''
-                    }`}
-                    onClick={() => setIsMenuOpen(false)}
+                    className={`bbc-nav-item px-2.5 py-1 text-xs font-medium transition-all duration-150 flex items-center space-x-1 whitespace-nowrap ${location.pathname === '/my-news' ? 'active' : ''}`}
                   >
-                    <Star className="w-4 h-4" />
+                    <Star className="w-3.5 h-3.5" />
                     <span>My News</span>
                   </Link>
                 )}
@@ -402,21 +214,143 @@ const Header = () => {
                   <Link
                     key={category.key}
                     to={category.path}
-                    className={`bbc-nav-item block px-3 py-2 text-base font-medium transition-colors mb-2 ${
-                      isActivePath(category.path)
-                        ? 'active'
-                        : ''
-                    }`}
-                    onClick={() => setIsMenuOpen(false)}
+                    className={`bbc-nav-item px-2.5 py-1 text-xs font-medium transition-all duration-150 whitespace-nowrap ${isActivePath(category.path) ? 'active' : ''}`}
                   >
                     {translations[category.key] || category.name}
                   </Link>
                 ))}
               </nav>
+
+              {/* Right: controls (search compact, Profile button, mobile menu) */}
+              <div className="flex items-center space-x-2 flex-shrink-0">
+                {/* Search: small so it won't push nav */}
+                <form onSubmit={handleSearch} className="hidden md:flex items-center">
+                  <div className="relative">
+                    <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 w-3.5 h-3.5 text-gray-500" />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder={translations.searchPlaceholder}
+                      className="bbc-search pl-8 pr-3 py-1.5 w-36 max-w-[9rem] min-w-0 transition-all truncate bg-gray-50 border border-gray-200 rounded text-xs"
+                      aria-label="Search news"
+                    />
+                  </div>
+                </form>
+
+                {/* Profile button (replaces avatar) */}
+                {isAuthenticated && user ? (
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowUserMenu(!showUserMenu)}
+                      className="px-3 py-1 rounded bg-gray-100 border border-gray-200 text-xs font-medium hover:bg-gray-200"
+                      aria-label="Open profile menu"
+                    >
+                      Profile
+                    </button>
+
+                    {showUserMenu && (
+                      <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1.5 z-50 text-sm">
+                        <div className="px-3 py-2 border-b border-gray-100">
+                          <p className="font-medium text-gray-900 truncate">{user.fullName}</p>
+                          <p className="text-xs text-gray-600">@{user.username}</p>
+                          <p className="text-[11px] text-red-600 mt-1">{user.camblissPoints} Cambliss Points</p>
+                        </div>
+
+                        <Link
+                          to="/dashboard"
+                          className="flex items-center px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          onClick={() => setShowUserMenu(false)}
+                        >
+                          <User className="w-4 h-4 mr-2" />
+                          Dashboard
+                        </Link>
+
+                        <button
+                          onClick={() => { setShowUserMenu(false); navigate('/social'); }}
+                          className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          <MessageSquare className="w-4 h-4 mr-2" />
+                          Social Feed
+                        </button>
+
+                        <button
+                          onClick={handleLogout}
+                          className="flex items-center w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50"
+                        >
+                          <LogOut className="w-4 h-4 mr-2" />
+                          Sign Out
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setShowLoginModal(true)}
+                    className="bbc-button-primary text-white px-3 py-1.5 font-medium text-xs"
+                  >
+                    Sign In
+                  </button>
+                )}
+
+                {/* mobile menu toggle */}
+                <button
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className="lg:hidden p-2 text-black transition-colors"
+                  aria-label="Toggle menu"
+                >
+                  {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                </button>
+              </div>
             </div>
           </div>
-        )}
-      </div>
+
+          {/* Mobile Menu */}
+          {isMenuOpen && (
+            <div className="lg:hidden bbc-nav border-t border-gray-200 shadow-sm">
+              <div className="px-3 py-3">
+                {/* Mobile Search */}
+                <form onSubmit={handleSearch} className="mb-3">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder={translations.searchPlaceholder}
+                      className="bbc-search w-full pl-10 pr-3 py-2 bg-gray-50 border border-gray-200 rounded text-sm"
+                    />
+                  </div>
+                </form>
+
+                {/* Mobile Navigation */}
+                <nav className="space-y-1">
+                  {categories.map(category => (
+                    <Link
+                      key={category.key}
+                      to={category.path}
+                      className={`bbc-nav-item block px-3 py-2 text-sm font-medium transition-colors ${isActivePath(category.path) ? 'active' : ''}`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {translations[category.key] || category.name}
+                    </Link>
+                  ))}
+
+                  {hasMyNewsPreferences && isAuthenticated && (
+                    <Link
+                      to="/my-news"
+                      className="bbc-nav-item block px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Star className="w-4 h-4" />
+                      <span>My News</span>
+                    </Link>
+                  )}
+                </nav>
+              </div>
+            </div>
+          )}
+        </div>
       </header>
 
       <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
@@ -431,14 +365,6 @@ const Header = () => {
         onSave={handleMyNewsSave}
         initialCategories={[]}
         isFirstTime={isFirstTimeUser}
-      />
-      <AddNewsModal
-        isOpen={showAddNewsModal}
-        onClose={() => setShowAddNewsModal(false)}
-        onSuccess={() => {
-          refreshNews();
-          setShowAddNewsModal(false);
-        }}
       />
     </>
   );
