@@ -148,7 +148,7 @@ const Header = () => {
 
       {/* Main Navigation */}
       <div className="bbc-nav">
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="w-full px-6">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">
               <Link to="/" className="flex items-center space-x-3 group">
