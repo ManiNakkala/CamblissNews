@@ -12,6 +12,18 @@ VITE_API_URL=http://localhost:5000
 
 To Sart The Project
 
+Backend (server folder):
+
+cd server
+npm init -y
+npm install express dotenv cors body-parser @clerk/express @clerk/clerk-sdk-node
+
+
+Frontend (client folder):
+
+cd client
+npm install @clerk/clerk-react
+
 npm install
 
 npm run dev:full
