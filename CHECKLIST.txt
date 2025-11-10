@@ -1,0 +1,63 @@
+╔═══════════════════════════════════════════════════════════════════╗
+║                  CAMBLISS NEWS - SETUP CHECKLIST                  ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+✅ Dependencies installed
+✅ Environment files created
+✅ Server configured
+✅ Database connected (Supabase)
+✅ Build tested successfully
+
+═══════════════════════════════════════════════════════════════════
+
+📝 YOUR TODO (2 minutes):
+
+[ ] Step 1: Add ElevenLabs API Key (OPTIONAL)
+    └─ File: .env (project root)
+    └─ Line 9: VITE_REACT_APP_ELEVENLABS_API_KEY=your_key
+    └─ Get from: https://elevenlabs.io/
+    └─ Note: App works without this (uses browser voice)
+
+[ ] Step 2: Add Razorpay Keys (REQUIRED)
+    └─ File: server/.env (in server folder)
+    └─ Line 5: RAZORPAY_KEY_ID=rzp_test_your_key
+    └─ Line 6: RAZORPAY_SECRET=your_secret
+    └─ Get from: https://razorpay.com → Settings → API Keys
+
+[ ] Step 3: Run the app
+    └─ Command: npm run dev:full
+
+[ ] Step 4: Test it
+    └─ Open: http://localhost:5173
+    └─ Login: john.doe@example.com / password
+    └─ Test subscription with card: 4111 1111 1111 1111
+
+═══════════════════════════════════════════════════════════════════
+
+📁 WHERE TO PASTE YOUR KEYS:
+
+Frontend (.env):
+  /project/.env
+  └─ Line 9: Uncomment and add ElevenLabs key
+
+Backend (server/.env):
+  /project/server/.env
+  └─ Line 5: Add RAZORPAY_KEY_ID
+  └─ Line 6: Add RAZORPAY_SECRET
+
+═══════════════════════════════════════════════════════════════════
+
+📚 HELP DOCUMENTS:
+
+  START_HERE.txt          → Quick start guide
+  SETUP_KEYS.md          → Detailed instructions
+  PASTE_KEYS_HERE.md     → Visual guide
+  README_QUICK_START.md  → Complete overview
+
+═══════════════════════════════════════════════════════════════════
+
+🚀 READY TO LAUNCH!
+
+Just paste your API keys and run: npm run dev:full
+
+╚═══════════════════════════════════════════════════════════════════╝
