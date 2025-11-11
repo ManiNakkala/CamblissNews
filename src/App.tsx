@@ -7,6 +7,7 @@ import MyNewsPage from "./pages/MyNewsPage";
 import CategoryPage from "./pages/CategoryPage";
 import SearchPage from "./pages/SearchPage";
 import SocialPage from "./pages/SocialPage";
+import PodcastsPage from "./pages/PodcastsPage";
 import UserDashboard from "./components/UserDashboard";
 import FullArticle from "./components/FullArticle";
 import Chatbot from "./components/Chatbot";
@@ -40,6 +41,7 @@ function App() {
                       setShowFullArticle(true);
                     }} />} />
                   <Route path="/social" element={<SocialPage />} />
+                  <Route path="/podcasts" element={<PodcastsPage />} />
                   <Route path="/category/:categoryName" element={<CategoryPage onArticleClick={(article) => {
                       setSelectedArticle(article);
                       setShowFullArticle(true);

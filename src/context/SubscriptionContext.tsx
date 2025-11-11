@@ -294,7 +294,10 @@ export const SubscriptionProvider: React.FC<{ children: ReactNode }> = ({ childr
       };
 
       localStorage.setItem(`subscription_${user?.id}`, JSON.stringify(subscription));
+      localStorage.setItem('isPremium', 'true');
       setCurrentSubscription(subscription);
+
+      window.dispatchEvent(new Event('premiumStatusChanged'));
 
       const bonusPoints = plan.tier === 'pro'
         ? (plan.interval === 'month' ? 1500 : 18000)

@@ -39,6 +39,7 @@ const Header = () => {
     { name: "Technology", path: "/category/technology", key: "technology" },
     { name: "Sports", path: "/category/sports", key: "sports" },
     { name: "Entertainment", path: "/category/entertainment", key: "entertainment" },
+    { name: "Podcasts", path: "/podcasts", key: "podcasts" },
     { name: "Health", path: "/category/health", key: "health" },
   ];
 
