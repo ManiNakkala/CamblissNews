@@ -129,7 +129,7 @@ const Header = () => {
 
         {/* Main Navigation - compact & fits viewport (no horizontal slider) */}
         <div className="bbc-nav bg-white w-full border-b">
-          <div className="max-w-7xl mx-auto px-3">
+          <div className="w-full px-6">
             <div className="flex items-center justify-between h-14">
               {/* Left: Logo */}
               <div className="flex items-center flex-shrink-0 mr-4">
@@ -166,10 +166,16 @@ const Header = () => {
                     to="/my-news"
                     className={`bbc-nav-item px-2.5 py-1 text-xs font-medium transition-all duration-150 flex items-center space-x-1 whitespace-nowrap ${location.pathname === '/my-news' ? 'active' : ''}`}
                   >
-                    <Star className="w-3.5 h-3.5" />
                     <span>My News</span>
                   </Link>
                 )}
+
+                {isAuthenticated && (
+                  <Link to="/my-posts" className={`bbc-nav-item px-2.5 py-1 text-xs font-medium transition-all duration-150 flex items-center space-x-1 whitespace-nowrap ${location.pathname === '/my-posts' ? 'active' : ''}`}>
+                    My Posts
+                  </Link>
+                )}
+
 
                 {categories.slice(1).map(category => (
                   <Link
