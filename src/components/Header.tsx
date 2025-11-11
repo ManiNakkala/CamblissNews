@@ -122,7 +122,7 @@ const Header = () => {
                   <User className="w-3 h-3" />
                   <span className="text-xs">{user.camblissPoints} pts</span>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -210,7 +210,7 @@ const Header = () => {
                   <div className="relative">
                     <button
                       onClick={() => setShowUserMenu(!showUserMenu)}
-                      className="px-3 py-1 rounded bg-gray-100 border border-gray-200 text-xs font-medium hover:bg-gray-200"
+                      className="bbc-nav-item px-2.5 py-1 text-xs font-medium transition-all duration-150 rounded bg-red-600 text-white hover:bg-gray-100 hover:text-red-600"
                       aria-label="Open profile menu"
                     >
                       Profile

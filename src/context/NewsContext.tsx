@@ -584,42 +584,7 @@ const fetchByAuthor = async (authorId: string) => {
     return results.slice(0, 50);
   };
 
-<<<<<<< HEAD
-  useEffect(() => {
-    refreshNews();
-    refreshPersonalizedNews();
-    
-    // Real-time updates every 2 minutes (120,000ms)
-    const newsInterval = setInterval(() => {
-      refreshNews();
-    }, 120000);
-    
-    // Personalized news updates every 10 minutes (600,000ms)
-    const personalizedInterval = setInterval(() => {
-      refreshPersonalizedNews();
-    }, 600000);
-    
-    return () => {
-      clearInterval(newsInterval);
-      clearInterval(personalizedInterval);
-    };
-  }, []);
-
-  const value = {
-=======
-  const getArticlesByCategory = (category: string) => {
-    if (!category || category === 'home' || category === 'breaking') {
-      const breakingArticles = articles.filter(a => a.category === 'breaking').slice(0, 10);
-      const otherArticles = articles.filter(a => a.category !== 'breaking').slice(0, 25);
-      return [...breakingArticles, ...otherArticles];
-    }
-    return articles.filter(a => a.category.toLowerCase() === category.toLowerCase()).slice(0, 100);
-  };
-
-  const getLatest = (limit = 10) => {
-    return articles.filter(a => a.status === 'published').slice(0, limit);
-  };
-
+  // ...existing code...
   const getTrending = (limit = 5) => {
     // simple trending: sort by views + recency bonus
     const scored = articles.map(a => {
@@ -638,8 +603,20 @@ const fetchByAuthor = async (authorId: string) => {
     setLastUpdated(new Date());
   };
 
+  // Ensure getArticlesByCategory is defined
+  const getLatest = (limit = 10) => {
+    return articles.filter(a => a.status === 'published').slice(0, limit);
+  };
+  const getArticlesByCategory = (category: string) => {
+    if (!category || category === 'home' || category === 'breaking') {
+      const breakingArticles = articles.filter(a => a.category === 'breaking').slice(0, 10);
+      const otherArticles = articles.filter(a => a.category !== 'breaking').slice(0, 25);
+      return [...breakingArticles, ...otherArticles];
+    }
+    return articles.filter(a => a.category.toLowerCase() === category.toLowerCase()).slice(0, 100);
+  };
+
   const value = useMemo<NewsContextType>(() => ({
->>>>>>> 6dee384 (intern2 task update)
     articles,
     lastUpdated,
     isLoading,
@@ -648,10 +625,6 @@ const fetchByAuthor = async (authorId: string) => {
     getArticlesByCategory,
     searchArticles,
     getLocalizedArticles,
-<<<<<<< HEAD
-    translateArticle
-  };
-=======
     translateArticle,
     addNewsArticle,
     editNewsArticle,
@@ -665,10 +638,9 @@ const fetchByAuthor = async (authorId: string) => {
     getTrending,
     refresh
   }), [articles, lastUpdated, isLoading, personalizedArticles, userPosts]);
->>>>>>> 6dee384 (intern2 task update)
 
   return <NewsContext.Provider value={value}>{children}</NewsContext.Provider>;
-};
+}
 
 export const useNews = () => {
   const context = useContext(NewsContext);
